@@ -9,7 +9,7 @@ String baseFileName = "F";
 void initSDCard()
 {
   
-   Serial.print("Initializing SD card...");
+   //Serial.print("Initializing SD card...");
 
   // see if the card is present and can be initialized:
   if (!SD.begin(SPI_CS)) {
@@ -19,8 +19,12 @@ void initSDCard()
       SET_LED(LED_GREEN);
     //while (1);
   }
-  Serial.println("card initialized.");
-  createNewFile();
+  else
+  {
+      createNewFile();
+
+  }
+ // Serial.println("card initialized.");
 
 }
 
@@ -55,9 +59,9 @@ void createNewFile()
     int index = 0;
     index = getLastFileIndex();
 
-    Serial.print("Qnt of files:");
+   /* Serial.print("Qnt of files:");
     Serial.println(index);
-    
+    */
     fileName = getFileName(index);
 
   for(int i=0;i<4;i++)
@@ -111,7 +115,7 @@ int writeDataToFile(String writeDataToFile)
    }
    else
    {
-    Serial.println("ERROR 2 Write");
+   // Serial.println("ERROR 2 Write");
     SET_LED(LED_RED);
     SET_LED(LED_GREEN);
     initSDCard();
@@ -137,7 +141,7 @@ int getLastFileIndex()
   int count =0;
   while(true) {
      File entry =  dir.openNextFile();
-          Serial.print(entry.name());
+      //    Serial.print(entry.name());
 
      if (! entry) {
        // no more files
