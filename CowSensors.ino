@@ -51,17 +51,19 @@ bool  readSensors()
   {
    int mic= readMic();
       Wire.beginTransmission(MPU_addr);
+     // Serial.println(mic);
+       //  Serial.flush();
     Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
     Wire.endTransmission(false);
     Wire.requestFrom(MPU_addr,14,true);  // request a total of 14 registers
-    sensorsArray[sensorArrayCounter].aX += (Wire.read()<<8|Wire.read())/10;  // 0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)    
-    sensorsArray[sensorArrayCounter].aY += (Wire.read()<<8|Wire.read())/10;  // 0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
-    sensorsArray[sensorArrayCounter].aZ += (Wire.read()<<8|Wire.read())/10;  // 0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
-    sensorsArray[sensorArrayCounter].temp += (Wire.read()<<8|Wire.read())/10;  // 0x41 (TEMP_OUT_H) & 0x42 (TEMP_OUT_L)
-    sensorsArray[sensorArrayCounter].gX += (Wire.read()<<8|Wire.read())/10;  // 0x43 (GYRO_XOUT_H) & 0x44 (GYRO_XOUT_L)
-    sensorsArray[sensorArrayCounter].gY += (Wire.read()<<8|Wire.read())/10;  // 0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L)
-    sensorsArray[sensorArrayCounter].gZ += (Wire.read()<<8|Wire.read())/10;  // 0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L)
-    sensorsArray[sensorArrayCounter].mic += mic/10;
+    sensorsArray[sensorArrayCounter].aX += (Wire.read()<<8|Wire.read())/AVERAGE_SIZE_SEC;  // 0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)    
+    sensorsArray[sensorArrayCounter].aY += (Wire.read()<<8|Wire.read())/AVERAGE_SIZE_SEC;  // 0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
+    sensorsArray[sensorArrayCounter].aZ += (Wire.read()<<8|Wire.read())/AVERAGE_SIZE_SEC;  // 0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
+    sensorsArray[sensorArrayCounter].temp += (Wire.read()<<8|Wire.read())/AVERAGE_SIZE_SEC;  // 0x41 (TEMP_OUT_H) & 0x42 (TEMP_OUT_L)
+    sensorsArray[sensorArrayCounter].gX += (Wire.read()<<8|Wire.read())/AVERAGE_SIZE_SEC;  // 0x43 (GYRO_XOUT_H) & 0x44 (GYRO_XOUT_L)
+    sensorsArray[sensorArrayCounter].gY += (Wire.read()<<8|Wire.read())/AVERAGE_SIZE_SEC;  // 0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L)
+    sensorsArray[sensorArrayCounter].gZ += (Wire.read()<<8|Wire.read())/AVERAGE_SIZE_SEC;  // 0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L)
+    sensorsArray[sensorArrayCounter].mic += mic/AVERAGE_SIZE_SEC;
     count++;
   }
   else

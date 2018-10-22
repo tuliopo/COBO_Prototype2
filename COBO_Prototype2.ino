@@ -6,8 +6,7 @@ const int BUTTON2 = 8;
 const int BUTTON1 = 9;
 const int LED_GREEN = 5;
 const int LED_RED = 6;
-#define AVERAGE_SIZE_SEC  10
-#define SAMPLES_SEC       10
+#define AVERAGE_SIZE_SEC  8
 
 #define IS_BUTTON2_PRESSED() (digitalRead(BUTTON2) == 0)
 
@@ -25,6 +24,7 @@ struct sensor_s
   float temp;
   float   mic;
 };
+bool isDebugEnable = false;
 #define SENSOR_ARRAY_SIZE 1
 int sensorArrayCounter =0;
 struct sensor_s sensorsArray[SENSOR_ARRAY_SIZE];
@@ -63,9 +63,9 @@ void loop() {
     {
       sensorArrayCounter =0 ;
            
-          if(count2LedIndicate >20)
+          if(count2LedIndicate >9)
           {
-          SET_LED(LED_RED);
+          SET_LED(LED_GREEN);
           count2LedIndicate =0;
           }
           else
@@ -78,21 +78,24 @@ void loop() {
             if(IS_BUTTON2_PRESSED())
             {
               SET_LED(LED_RED);
+               SET_LED(LED_GREEN);
               Serial.print(line);
+                Serial.flush();
+                isDebugEnable = true;
             }
 
             writeDataToFile(line);
 
          }
        
-
+          isDebugEnable = false;
           CLR_LED(LED_RED);
           CLR_LED(LED_GREEN);
     }
 
-  
-    Serial.flush();
-    LowPower.powerDown(SLEEP_30MS, ADC_OFF, BOD_OFF);  
+      LowPower.powerDown(SLEEP_120MS, ADC_OFF, BOD_OFF);  
+
+ 
 
   // put your main code here, to run repeatedly:
 

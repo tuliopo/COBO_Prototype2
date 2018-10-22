@@ -58,12 +58,14 @@ void createNewFile()
 {
     int index = 0;
     index = getLastFileIndex();
-
-   /* Serial.print("Qnt of files:");
-    Serial.println(index);
-    */
+    
     fileName = getFileName(index);
-
+if(isDebugEnable)
+   { Serial.print("Qnt of files:");
+    Serial.print(index);
+    Serial.print(" New file name:  ");
+    Serial.println(fileName);
+  }
   for(int i=0;i<4;i++)
     {
       SET_LED(LED_RED);
